@@ -46,4 +46,22 @@ class PassportAuthController extends Controller
             return response()->json(['error' => 'Unauthorised'], 401);
         }
     }   
+
+    public function getUsers()
+    {
+        $user = new User;
+        $users = $user->all();
+        return $users;
+    }
+
+    public function destroy($id)
+    {
+        $user = User::find($id);
+        $delete = $user->delete();
+        if($delete){
+            return response(['message'=>'Delete success','status' => '200'],200);
+        }else{
+            return response(['message'=>'Delete fail','status' => '400'],400);
+        }
+    }
 }

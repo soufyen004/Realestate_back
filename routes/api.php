@@ -11,12 +11,15 @@ Route::post('register', [PassportAuthController::class, 'register']);
 Route::post('login', [PassportAuthController::class, 'login']);
 
 Route::middleware('auth:api')->group(function () {
-    Route::resource('posts', PostController::class);
-    Route::get('/all',[AnnouncementsController::class,'index']);
+
     Route::get('/selling',[AnnouncementsController::class,'getSellingAnnouncements']);
     Route::get('/renting',[AnnouncementsController::class,'getRentingAnnouncements']);
+    Route::delete('/removeannouncement/{id}',[AnnouncementsController::class,'destroy']);
+    Route::post('/new',[AnnouncementsController::class,'store']);
+    Route::get('/users',[PassportAuthController::class,'getUsers']);
+    Route::delete('/removeuser/{id}',[PassportAuthController::class,'destroy']);
+    
 });
-Route::post('/new',[AnnouncementsController::class,'store']);
 
 // Test request
-Route::get('/testReq',[AnnouncementsController::class,'testReq']);
+Route::post('/testReq',[AnnouncementsController::class,'testReq']);
