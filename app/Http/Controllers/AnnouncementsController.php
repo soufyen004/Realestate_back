@@ -72,6 +72,7 @@ class AnnouncementsController extends Controller
                 // $request->file('file')->store('public');
                 // $file->move(base_path('\uploads'),$file->getClientOriginalName());
                 // $file->move(public_path('\uploads'),$file->getClientOriginalName());
+                $file->move(public_path('\uploads'),$fileName);
                 
             $announcements = new Announcements;
             $announcements->city = $request['city'];
