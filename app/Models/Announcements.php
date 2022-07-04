@@ -26,4 +26,13 @@ class Announcements extends Model
         'aminities'
     ];
 
+    public function scopeForRent($query)
+    {
+        return $query->where('listingType','for rent');
+    }
+
+    public function scopeForSell($query)
+    {
+        return $query->where('listingType','for sell');
+    }
 }

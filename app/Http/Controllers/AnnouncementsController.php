@@ -34,12 +34,6 @@ class AnnouncementsController extends Controller
             return response(['message' => 'false!','status'=>400], 400);
         }
     }
-
-    public function create()
-    {
-        //
-    }
-
     
     public function store(Request $request)
     {
@@ -148,13 +142,13 @@ class AnnouncementsController extends Controller
 
     public function getSellingAnnouncements()
     {
-        $data = DB::table('announcements')->where('listingType', 'for sell')->get();
+        $data = Announcements::ForSell()->get();
         return $data;
     }
 
     public function getRentingAnnouncements()
     {
-        $data = DB::table('announcements')->where('listingType', 'for rent')->get();
+        $data = Announcements::ForRent()->get();
         return $data;
     }
 }

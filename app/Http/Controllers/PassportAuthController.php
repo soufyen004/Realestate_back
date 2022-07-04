@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Validator;
+use DB;
+
 
 class PassportAuthController extends Controller
 {
@@ -23,6 +25,7 @@ class PassportAuthController extends Controller
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
+                'role' => $request->role,
                 'password' => bcrypt($request->password)
             ]);
             $token = $user->createToken('LaravelAuthApp')->accessToken;
@@ -49,8 +52,13 @@ class PassportAuthController extends Controller
 
     public function getUsers()
     {
-        $user = new User;
-        $users = $user->all();
+        $users = DB::table('users')->where('role','!=', 'agent')->get();
+        return $users;
+    }
+
+    public function getAgents()
+    {
+        $users = DB::table('users')->where('role', 'agent')->get();
         return $users;
     }
 
@@ -62,6 +70,18 @@ class PassportAuthController extends Controller
             return response(['message'=>'Delete success','status' => '200'],200);
         }else{
             return response(['message'=>'Delete fail','status' => '400'],400);
+        }
+    }
+
+    public function updateUser(Request $request,$id){
+
+        $user = User::find($id);
+        $user->role = $request->input('role');
+        $save = $user->save();
+        if($save) {
+            return true;
+        }else{
+            return false;
         }
     }
 }

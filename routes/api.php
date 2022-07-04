@@ -17,9 +17,12 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('/removeannouncement/{id}',[AnnouncementsController::class,'destroy']);
     Route::post('/new',[AnnouncementsController::class,'store']);
     Route::get('/users',[PassportAuthController::class,'getUsers']);
+    Route::get('/agents',[PassportAuthController::class,'getAgents']);
     Route::delete('/removeuser/{id}',[PassportAuthController::class,'destroy']);
-    
+    Route::post('/updateUser/{id}',[PassportAuthController::class,'updateUser']);
+
 });
 
+
 // Test request
-Route::post('/testReq',[AnnouncementsController::class,'testReq']);
+// Route::post('/testReq',[AnnouncementsController::class,'testReq'])
