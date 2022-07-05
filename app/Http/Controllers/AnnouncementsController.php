@@ -43,13 +43,13 @@ class AnnouncementsController extends Controller
             'price' =>' required|numeric',
             'bathrooms' => 'required|numeric',
             'aminities' => 'required|string',
-            'propertystatus' => 'required|string',
+            'propertyStatus' => 'required|string',
             'bedrooms'=> 'required|numeric',
             'sqft' => 'required|numeric',
             'neighborhood' => 'required|string',
             'bhk' => 'required|numeric',
             'rating' => 'required|numeric',
-            'listingType' => 'required|string'
+            'propertyType' => 'required|string'
         ]);
 
         if($validator->fails())
@@ -73,14 +73,14 @@ class AnnouncementsController extends Controller
             $announcements->price = $request['price'];
             $announcements->bathrooms = $request['bathrooms'];
             $announcements->aminities = $request['aminities'];
-            $announcements->propertystatus = $request['propertystatus'];
-            $announcements->propertytype = $request['propertytype'];
+            $announcements->propertyStatus = $request['propertyStatus'];
+            $announcements->propertyType = $request['propertyType'];
             $announcements->bedrooms = $request['bedrooms'];
             $announcements->sqft = $request['sqft'];
             $announcements->neighborhood = $request['neighborhood'];
             $announcements->bhk = $request['bhk'];
             $announcements->rating = $request['rating'];
-            $announcements->listingType = $request['listingType'];
+            $announcements->announcementStatus = $request['announcementStatus'];
             $announcements->cover_image = $fileName;
 
             $announcements->save();
@@ -89,46 +89,6 @@ class AnnouncementsController extends Controller
         
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Announcements  $announcements
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Announcements $announcements)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Announcements  $announcements
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Announcements $announcements)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateAnnouncementsRequest  $request
-     * @param  \App\Models\Announcements  $announcements
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateAnnouncementsRequest $request, Announcements $announcements)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Announcements  $announcements
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $announcements = Announcements::find($id);

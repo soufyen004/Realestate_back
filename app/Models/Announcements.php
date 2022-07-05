@@ -15,24 +15,26 @@ class Announcements extends Model
         'city',
         'price',
         'bathrooms',
-        'propertytype',
-        'propertystatus',
+        'propertyType',
+        'propertyStatus',
         'bedrooms',
         'sqft',
         'neighborhood',
         'bhk',
         'rating',
-        'listingType',
+        'announcementStatus',
         'aminities'
     ];
 
     public function scopeForRent($query)
     {
-        return $query->where('listingType','for rent');
+        return $query->where('announcementStatus','for rent');
     }
 
     public function scopeForSell($query)
     {
-        return $query->where('listingType','for sell');
+        return $query->where('announcementStatus','for sell');
     }
+
+
 }

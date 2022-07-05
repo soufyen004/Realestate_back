@@ -4,11 +4,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PassportAuthController;
 use App\Http\Controllers\AnnouncementsController;
-
+use App\Http\Controllers\SearchController;
 
 
 Route::post('register', [PassportAuthController::class, 'register']);
 Route::post('login', [PassportAuthController::class, 'login']);
+Route::post('search',[SearchController::class, 'searchResult']);
 
 Route::middleware('auth:api')->group(function () {
 
@@ -20,7 +21,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/agents',[PassportAuthController::class,'getAgents']);
     Route::delete('/removeuser/{id}',[PassportAuthController::class,'destroy']);
     Route::post('/updateUser/{id}',[PassportAuthController::class,'updateUser']);
-
+    
 });
 
 

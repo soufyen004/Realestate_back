@@ -20,14 +20,14 @@ class CreateAnnouncementsTable extends Migration
             $table->integer('price');
             $table->integer('bathrooms');
             $table->string('aminities');
-            $table->string('propertystatus');
+            $table->string('propertyStatus');
             $table->string('propertytype');
             $table->integer('bedrooms');
             $table->integer('sqft');
             $table->string('neighborhood');
             $table->integer('bhk');
             $table->integer('rating');
-            $table->string('listingType');
+            $table->string('announcementStatus');
             $table->timestamps();
         });
     }

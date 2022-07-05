@@ -28,7 +28,7 @@ class PassportAuthController extends Controller
                 'role' => $request->role,
                 'password' => bcrypt($request->password)
             ]);
-            $token = $user->createToken('LaravelAuthApp')->accessToken;
+            $token = $user->createToken('RealEstateApp')->accessToken;
             return response(['message' => 'Registration success!','token' => $token,'status'=>200], 200);
 
         }
