@@ -12,6 +12,7 @@ Route::post('register', [PassportAuthController::class, 'register']);
 Route::post('login', [PassportAuthController::class, 'login']);
 Route::post('search',[SearchController::class, 'searchResult']);
 Route::post('contactupdate',[ContactDetailsController::class,'Update']);
+Route::get('contactdetails',[ContactDetailsController::class,'contactdetails']);
 
 Route::middleware('auth:api')->group(function () {
 

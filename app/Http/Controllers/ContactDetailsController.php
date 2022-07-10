@@ -7,6 +7,11 @@ use App\Models\ContactDetails;
 
 class ContactDetailsController extends Controller
 {
+    public function contactdetails()
+    {
+        $contactDetails = ContactDetails::all();
+        return response()->json($contactDetails,200);
+    }
     public function Update(Request $req){
 
         $validator = $req->validate([
