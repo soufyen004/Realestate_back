@@ -5,11 +5,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PassportAuthController;
 use App\Http\Controllers\AnnouncementsController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\ContactDetailsController;
 
 
 Route::post('register', [PassportAuthController::class, 'register']);
 Route::post('login', [PassportAuthController::class, 'login']);
 Route::post('search',[SearchController::class, 'searchResult']);
+Route::post('contactupdate',[ContactDetailsController::class,'Update']);
 
 Route::middleware('auth:api')->group(function () {
 
