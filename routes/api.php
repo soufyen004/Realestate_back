@@ -13,6 +13,7 @@ Route::post('login', [PassportAuthController::class, 'login']);
 Route::post('search',[SearchController::class, 'searchResult']);
 Route::post('contactupdate',[ContactDetailsController::class,'Update']);
 Route::get('contactdetails',[ContactDetailsController::class,'contactdetails']);
+Route::get('/bannedusers',[PassportAuthController::class,'getBannedUsers']);
 
 
 Route::middleware('auth:api')->group(function () {
@@ -25,6 +26,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/agents',[PassportAuthController::class,'getAgents']);
     Route::delete('/removeuser/{id}',[PassportAuthController::class,'destroy']);
     Route::post('/updateUser/{id}',[PassportAuthController::class,'updateUser']);
+    Route::post('/bannedusers',[PassportAuthController::class,'bannedUsers']);
     
     Route::post('logout',[PassportAuthController::class,'logout']);
 

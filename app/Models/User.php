@@ -44,8 +44,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function posts()
+    public function scopeBanned($query)
     {
-        return $this->hasMany(Post::class);
-    }    
+        return $query->where('status','banned');
+    }
+
 }

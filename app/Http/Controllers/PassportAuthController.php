@@ -26,12 +26,14 @@ class PassportAuthController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'role' => $request->role,
-                'password' => bcrypt($request->password)
+                'password' => bcrypt($request->password),
+                'status' => 'active'
             ]);
             $token = $user->createToken('RealEstateApp')->accessToken;
             return response(['message' => 'Registration success!','token' => $token,'status'=>200], 200);
 
         }
+
     }
  
     public function login(Request $request)
@@ -53,7 +55,7 @@ class PassportAuthController extends Controller
 
     public function getUsers()
     {
-        $users = DB::table('users')->where('role','!=', 'agent')->get();
+        $users = DB::table('users')->where('role','!=', 'agent')->where('status','!=', 'banned')->get();
         return $users;
     }
 
@@ -61,6 +63,12 @@ class PassportAuthController extends Controller
     {
         $users = DB::table('users')->where('role', 'agent')->get();
         return $users;
+    }
+
+    public function getBannedUsers()
+    {
+        $data = User::Banned()->get();
+        return $data;
     }
 
     public function destroy($id)
@@ -78,6 +86,7 @@ class PassportAuthController extends Controller
 
         $user = User::find($id);
         $user->role = $request->input('role');
+        $user->status = $request->input('status');
         $save = $user->save();
         if($save) {
             return true;
