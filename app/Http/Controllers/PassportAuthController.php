@@ -27,7 +27,7 @@ class PassportAuthController extends Controller
                 'email' => $request->email,
                 'role' => $request->role,
                 'password' => bcrypt($request->password),
-                'status' => 'active'
+                'status' => $request->status,
             ]);
             $token = $user->createToken('RealEstateApp')->accessToken;
             return response(['message' => 'Registration success!','token' => $token,'status'=>200], 200);

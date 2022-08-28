@@ -47,7 +47,7 @@ class SearchController extends Controller
                     // return Announcements::with('announcementStatus')
                     return Announcements::where('announcementStatus' , '=', $announcementStatus)
                     ->where('city' , 'like', $city)
-                    // ->where('propertyStatus','=', $propertyStatus)
+                    ->where('propertyStatus','=', $propertyStatus)
                     ->where('neighborhood' , 'like', $neighborhood)
                     ->where('price' , '>=', $pricemin)
                     ->where('price' , '<=', $pricemax)

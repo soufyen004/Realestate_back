@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use DB;
+use Illuminate\Http\Request;
 use App\Models\Announcements;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\StoreAnnouncementsRequest;
 use App\Http\Requests\UpdateAnnouncementsRequest;
-use Illuminate\Http\Request;
-use DB;
-use Validator;
 
 class AnnouncementsController extends Controller
 {
@@ -110,5 +110,31 @@ class AnnouncementsController extends Controller
     {
         $data = Announcements::ForRent()->get();
         return $data;
+    }
+
+    public function update($id,request $request)
+    {
+        $announcements = Announcements::where('id',$id)->update([
+
+            'city' => $request['city'],
+            'price' => $request['price'],
+            'bathrooms' => $request['bathrooms'],
+            'aminities' => $request['aminities'],
+            'propertyStatus' => $request['propertyStatus'],
+            'propertyType' => $request['propertytype'],
+            'bedrooms' => $request['bedrooms'],
+            'sqft' => $request['sqft'],
+            'neighborhood' => $request['neighborhood'],
+            'bhk' => $request['bhk'],
+            'rating' => $request['rating'],
+            'announcementStatus' => $request['announcementStatus'],
+
+        ]);
+        
+        if($announcements->save()){
+            return response()->json(["message"=> "Update Success !"],200);
+        }else{
+            return response()->json(["message"=> "Update Failed !"],401);
+        }
     }
 }
