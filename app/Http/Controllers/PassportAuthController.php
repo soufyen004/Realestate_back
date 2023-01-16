@@ -35,14 +35,14 @@ class PassportAuthController extends Controller
         }
 
     }
- 
+
     public function login(Request $request)
     {
         $data = [
             'email' => $request->email,
             'password' => $request->password
         ];
- 
+
         if (auth()->attempt($data)) {
             $token = auth()->user()->createToken('LaravelAuthApp')->accessToken;
             $userName = auth()->user()->name;
@@ -51,7 +51,7 @@ class PassportAuthController extends Controller
         } else {
             return response()->json(['error' => 'Unauthorised'], 401);
         }
-    }   
+    }
 
     public function getUsers()
     {
@@ -85,6 +85,7 @@ class PassportAuthController extends Controller
     public function updateUser(Request $request,$id){
 
         $user = User::find($id);
+        $user->name = $request->input('name');
         $user->role = $request->input('role');
         $user->status = $request->input('status');
         $save = $user->save();

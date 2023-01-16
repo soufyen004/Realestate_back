@@ -15,18 +15,84 @@ class AnnouncementsSeeder extends Seeder
     public function run()
     {
         DB::table('announcements')->insert([
-            'city' => 'rabat',
-            'price' => '10000',
+            'city' => 'agadir',
+            'price' => '86000',
             'bathrooms' => '3',
-            'aminities' => 'test',
-            'propertystatus' => 'reday',
-            'propertytype' => 'for sell',
+            'aminities' => 'all',
+            'announcementStatus' => 'for sell',
+            'bedrooms' => '1',
+            'sqft' => '120',
+            'neighborhood'=> 'avenue hassan 2',
+            'bhk' => '3',
+            'rating' => '4',
+            'propertyType' => 'House',
+            'cover_image' => 'default.png',
+            'propertyStatus' => 'Ready to move'
+
+        ]);
+        DB::table('announcements')->insert([
+            'city' => 'rabat',
+            'price' => '100000',
+            'bathrooms' => '3',
+            'aminities' => 'all',
+            'announcementStatus' => 'for sell',
             'bedrooms' => '2',
             'sqft' => '300',
-            'neighborhood'=> 'schools',
+            'neighborhood'=> 'avenue hassan 2',
             'bhk' => '4',
             'rating' => '3',
-            'listingType' => 'test',
+            'propertyType' => 'House',
+            'cover_image' => 'default.png',
+            'propertyStatus' => 'Furnished'
+
+        ]);
+        DB::table('announcements')->insert([
+            'city' => 'casablanca',
+            'price' => '150000',
+            'bathrooms' => '2',
+            'aminities' => 'all',
+            'announcementStatus' => 'for sell',
+            'bedrooms' => '2',
+            'sqft' => '230',
+            'neighborhood'=> 'avenue hassan 2',
+            'bhk' => '2',
+            'rating' => '5',
+            'propertyType' => 'House',
+            'cover_image' => 'default.png',
+            'propertyStatus' => 'Furnished'
+
+        ]);
+        DB::table('announcements')->insert([
+            'city' => 'casablanca',
+            'price' => '150000',
+            'bathrooms' => '2',
+            'aminities' => 'all',
+            'announcementStatus' => 'for rent',
+            'bedrooms' => '2',
+            'sqft' => '230',
+            'neighborhood'=> 'avenue hassan 2',
+            'bhk' => '2',
+            'rating' => '5',
+            'propertyType' => 'House',
+            'cover_image' => 'default.png',
+            'propertyStatus' => 'Furnished'
+
+        ]);
+        DB::table('announcements')->insert([
+            'city' => 'casablanca',
+            'price' => '179000',
+            'bathrooms' => '1',
+            'aminities' => 'all',
+            'announcementStatus' => 'for rent',
+            'bedrooms' => '2',
+            'sqft' => '270',
+            'neighborhood'=> 'avenue hassan 2',
+            'bhk' => '3',
+            'rating' => '5',
+            'propertyType' => 'House',
+            'cover_image' => 'default.png',
+            'propertyStatus' => 'Furnished'
+
         ]);
     }
 }
