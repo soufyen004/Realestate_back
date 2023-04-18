@@ -15,6 +15,7 @@ class AnnouncementsSeeder extends Seeder
     public function run()
     {
         DB::table('announcements')->insert([
+            'title'=>'Appartement a agadir',
             'city' => 'agadir',
             'price' => '86000',
             'bathrooms' => '3',
@@ -31,6 +32,7 @@ class AnnouncementsSeeder extends Seeder
 
         ]);
         DB::table('announcements')->insert([
+            'title'=>'Appartement a centre rabat',
             'city' => 'rabat',
             'price' => '100000',
             'bathrooms' => '3',
@@ -47,6 +49,7 @@ class AnnouncementsSeeder extends Seeder
 
         ]);
         DB::table('announcements')->insert([
+            'title'=>'Appartement a casablanca',
             'city' => 'casablanca',
             'price' => '150000',
             'bathrooms' => '2',
@@ -63,6 +66,7 @@ class AnnouncementsSeeder extends Seeder
 
         ]);
         DB::table('announcements')->insert([
+            'title'=>'Appartement a casablanca neuf',
             'city' => 'casablanca',
             'price' => '150000',
             'bathrooms' => '2',
@@ -79,7 +83,8 @@ class AnnouncementsSeeder extends Seeder
 
         ]);
         DB::table('announcements')->insert([
-            'city' => 'casablanca',
+            'title'=>'Appartement a tanger',
+            'city' => 'tanger',
             'price' => '179000',
             'bathrooms' => '1',
             'aminities' => 'all',

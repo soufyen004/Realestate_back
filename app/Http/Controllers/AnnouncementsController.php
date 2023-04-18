@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use Illuminate\Http\Request;
 use App\Models\Announcements;
+use App\Models\Media;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\StoreAnnouncementsRequest;
 use App\Http\Requests\UpdateAnnouncementsRequest;
@@ -42,12 +43,10 @@ class AnnouncementsController extends Controller
             'city' => 'required|string',
             'price' =>' required|numeric',
             'bathrooms' => 'required|numeric',
-            'aminities' => 'required|string',
-            'propertyStatus' => 'required|string',
             'bedrooms'=> 'required|numeric',
+            'propertyStatus' => 'required|string',
             'sqft' => 'required|numeric',
             'neighborhood' => 'required|string',
-            'bhk' => 'required|numeric',
             'rating' => 'required|numeric',
             'propertyType' => 'required|string'
         ]);
@@ -59,16 +58,17 @@ class AnnouncementsController extends Controller
         else
         {
              //handle cover image
-                $file = $request->file('file');
-                $extension = $file->getClientOriginalExtension();
-                $fileName = date('ymdhis') . '.' . $extension;
-                // $file->move('/uploads',$fileName);
-                // $request->file('file')->store('public');
-                // $file->move(base_path('\uploads'),$file->getClientOriginalName());
-                // $file->move(public_path('\uploads'),$file->getClientOriginalName());
-                $file->move(public_path('\uploads'),$fileName);
+            $file = $request->file('file');
+            $extension = $file->getClientOriginalExtension();
+            $fileName = date('ymdhis') . '.' . $extension;
+            // $file->move('/uploads',$fileName);
+            // $request->file('file')->store('public');
+            // $file->move(base_path('\uploads'),$file->getClientOriginalName());
+            // $file->move(public_path('\uploads'),$file->getClientOriginalName());
+            $file->move(public_path('\uploads'),$fileName);
                 
             $announcements = new Announcements;
+            $announcements->title = $request['title'];
             $announcements->city = $request['city'];
             $announcements->price = $request['price'];
             $announcements->bathrooms = $request['bathrooms'];
@@ -82,9 +82,31 @@ class AnnouncementsController extends Controller
             $announcements->rating = $request['rating'];
             $announcements->announcementStatus = $request['announcementStatus'];
             $announcements->cover_image = $fileName;
+            $save = $announcements->save();
 
-            $announcements->save();
+            if($save){
+            
+            $mediaFiles = [$request['media']];
 
+                foreach($mediaFiles as $key -> mediaFile){
+
+                        $file = $mediaFile[$key];
+                        $extension = $file->getClientOriginalExtension();
+                        $fileName = date('ymdhis') . '.' . $extension;
+                        $file->move(public_path('\uploads'),$fileName);
+
+                        $media = new Media;
+                        $media -> adId = $announcements-> id;
+                        $media -> fileName = $fileName;
+                        $media->save();
+
+                }
+
+            return response(['message' => 'Ad has been saved successfully!','status'=>$request['media']], 200);
+
+
+            }
+            
         }
         
     }

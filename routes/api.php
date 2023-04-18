@@ -18,6 +18,7 @@ Route::get('/bannedusers',[PassportAuthController::class,'getBannedUsers']);
 
 Route::middleware('auth:api')->group(function () {
 
+    Route::get('/allAds',[AnnouncementsController::class,'index']);
     Route::get('/selling',[AnnouncementsController::class,'getSellingAnnouncements']);
     Route::get('/renting',[AnnouncementsController::class,'getRentingAnnouncements']);
     Route::put('/updateannouncement/{id}',[AnnouncementsController::class,'update']);
