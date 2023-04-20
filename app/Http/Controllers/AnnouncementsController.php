@@ -39,7 +39,8 @@ class AnnouncementsController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            // 'file' => 'required|jpg,jpeg,png|max:2048',
+            'file' => 'required|mimes:jpeg,png,bmp|max:2048',
+            'media' => 'required',
             'city' => 'required|string',
             'price' =>' required|numeric',
             'bathrooms' => 'required|numeric',
@@ -72,38 +73,47 @@ class AnnouncementsController extends Controller
             $announcements->city = $request['city'];
             $announcements->price = $request['price'];
             $announcements->bathrooms = $request['bathrooms'];
-            $announcements->aminities = $request['aminities'];
+            // $announcements->aminities = $request['amenities'];
             $announcements->propertyStatus = $request['propertyStatus'];
             $announcements->propertyType = $request['propertyType'];
             $announcements->bedrooms = $request['bedrooms'];
             $announcements->sqft = $request['sqft'];
             $announcements->neighborhood = $request['neighborhood'];
-            $announcements->bhk = $request['bhk'];
+            $announcements->annoncementType = $request['annonceType'];
             $announcements->rating = $request['rating'];
             $announcements->announcementStatus = $request['announcementStatus'];
             $announcements->cover_image = $fileName;
             $save = $announcements->save();
 
+
             if($save){
-            
-            $mediaFiles = [$request['media']];
 
-                foreach($mediaFiles as $key -> mediaFile){
+                // hadle media gallery
+                $files = [];
+                if($request->has('media'))
 
-                        $file = $mediaFile[$key];
-                        $extension = $file->getClientOriginalExtension();
-                        $fileName = date('ymdhis') . '.' . $extension;
-                        $file->move(public_path('\uploads'),$fileName);
+                 {
+                    foreach($request['media'] as $file)
+                    {
+                        
+                        $name = time().rand(1,50).'.'.$file->extension();
+                        $file->move(public_path('\uploads'), $name);  
 
-                        $media = new Media;
-                        $media -> adId = $announcements-> id;
-                        $media -> fileName = $fileName;
-                        $media->save();
+                        // $mediaFile = new Media;
+                        // $mediaFile->fileName = $name;
+                        // $mediaFile->adId = $announcements->id;
+                        // $mediaFile->save();
 
-                }
+                        Media::create([
+                            "fileName" => $name,
+                            "adId" => $announcements->id
+                        ]);
+                    }
+                 }else{
+                    return response(['message' => 'No media to ulpload!','status'=> $request['media']], 500);
+                 }
 
-            return response(['message' => 'Ad has been saved successfully!','status'=>$request['media']], 200);
-
+                return response(['message' => 'Ad has been saved successfully!','status'=>$request['media']], 200);
 
             }
             
