@@ -6,6 +6,7 @@ use DB;
 use Illuminate\Http\Request;
 use App\Models\Announcements;
 use App\Models\Media;
+use App\Models\Amenities;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\StoreAnnouncementsRequest;
 use App\Http\Requests\UpdateAnnouncementsRequest;
@@ -38,6 +39,8 @@ class AnnouncementsController extends Controller
     
     public function store(Request $request)
     {
+
+
         $validator = Validator::make($request->all(),[
             'file' => 'required|mimes:jpeg,png,bmp|max:2048',
             'media' => 'required',
@@ -58,6 +61,7 @@ class AnnouncementsController extends Controller
         }
         else
         {
+
              //handle cover image
             $file = $request->file('file');
             $extension = $file->getClientOriginalExtension();
@@ -79,9 +83,8 @@ class AnnouncementsController extends Controller
             $announcements->bedrooms = $request['bedrooms'];
             $announcements->sqft = $request['sqft'];
             $announcements->neighborhood = $request['neighborhood'];
-            $announcements->annoncementType = $request['annonceType'];
+            $announcements->annoncementType = $request['annoncementType'];
             $announcements->rating = $request['rating'];
-            $announcements->announcementStatus = $request['announcementStatus'];
             $announcements->cover_image = $fileName;
             $save = $announcements->save();
 
@@ -108,6 +111,24 @@ class AnnouncementsController extends Controller
                             "fileName" => $name,
                             "adId" => $announcements->id
                         ]);
+
+
+                        $amenities = new Amenities;
+                        $amenities->adId = $announcements->id;
+                        $amenities->yard = $request['yard'];
+                        $amenities->surveillance = $request['surveillance'];
+                        $amenities->balcon = $request['balcon'];
+                        $amenities->wifi = $request['wifi'];
+                        $amenities->elevator = $request['elevator'];
+                        $amenities->furnished = $request['furnished'];
+                        $amenities->kitchenReady = $request['kitchenReady'];
+                        $amenities->swimingPool = $request['swimingPool'];
+                        $amenities->airConditioner = $request['airConditioner'];
+                        $amenities->swimingPool = $request['swimingPool'];
+                        $amenities->babiesBedroom = $request['babiesBedroom'];
+                        $amenities->garage = $request['garage'];
+                        $amenities->save();
+
                     }
                  }else{
                     return response(['message' => 'No media to ulpload!','status'=> $request['media']], 500);
@@ -124,25 +145,25 @@ class AnnouncementsController extends Controller
     public function destroy($id)
     {
         $announcements = Announcements::find($id);
+        $medias = Media::where('adId', $id)->get();
         $delete = $announcements->delete();
         if($delete){
+            if(File::exists(public_path('upload/bio.png'))){
+                File::delete(public_path('upload/bio.png'));
+            }
+            
+            foreach ($medias as $media) {
+                $media->delete();
+            }
+
             return response(['message'=>'Delete success','status' => '200'],200);
+
         }else{
             return response(['message'=>'Delete fail','status' => '400'],400);
         }
     }
 
-    public function getSellingAnnouncements()
-    {
-        $data = Announcements::ForSell()->get();
-        return $data;
-    }
 
-    public function getRentingAnnouncements()
-    {
-        $data = Announcements::ForRent()->get();
-        return $data;
-    }
 
     public function update($id,request $request)
     {
@@ -168,5 +189,38 @@ class AnnouncementsController extends Controller
         }else{
             return response()->json(["message"=> "Update Failed !"],401);
         }
+    }
+
+    public function softRemove($id)
+    {
+
+        $announcement = Announcements::where('id', $id)->update(['markedForRemove' => 1]);        
+        if($announcement){
+            return response()->json(["message"=> "Marked for remove with Success !"],200);
+        }else{
+            return response()->json(["message"=> "Mark for remove Failed !"],401);
+        }
+    }
+
+    public function markedForRemove(){
+        $announcements = Announcements::where("markedForRemove",1)->get();
+
+        if($announcements){
+            return  $announcements;
+        }else{
+            return response()->json(["message"=> "Get data failed !"],401);
+        }
+
+    }
+
+    public function restoreDeleted($id){
+
+        $announcement = Announcements::where('id', $id)->update(['markedForRemove' => 0]);        
+        if($announcement){
+            return response()->json(["message"=> "Restored with Success !"],200);
+        }else{
+            return response()->json(["message"=> "Restoration Failed !"],401);
+        }
+
     }
 }

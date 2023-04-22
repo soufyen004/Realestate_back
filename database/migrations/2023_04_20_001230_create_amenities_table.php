@@ -16,18 +16,18 @@ class CreateAmenitiesTable extends Migration
         Schema::create('amenities', function (Blueprint $table) {
             $table->id();
             $table->integer('adId');
-            $table->string('garage');
-            $table->string('yard');
-            $table->string('surveillance');
-            $table->string('balcon');
-            $table->string('wifi');
-            $table->string('security');
-            $table->string('elevator');
-            $table->string('furnished');
-            $table->string('kitchenReady');
-            $table->string('swimingPool');
-            $table->string('airConditioner');
-            $table->string('babiesBedroom');
+            $table->string('garage')->nullable()->default(false);
+            $table->string('yard')->nullable()->default(false);
+            $table->string('surveillance')->nullable()->default(false);
+            $table->string('balcon')->nullable()->default(false);
+            $table->string('wifi')->nullable()->default(false);
+            $table->string('security')->nullable()->default(false);
+            $table->string('elevator')->nullable()->default(false);
+            $table->string('furnished')->nullable()->default(false);
+            $table->string('kitchenReady')->nullable()->default(false);
+            $table->string('swimingPool')->nullable()->default(false);
+            $table->string('airConditioner')->nullable()->default(false);
+            $table->string('babiesBedroom')->nullable()->default(false);
             $table->timestamps();
         });
     }

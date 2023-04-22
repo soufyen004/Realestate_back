@@ -23,16 +23,21 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/renting',[AnnouncementsController::class,'getRentingAnnouncements']);
     Route::put('/updateannouncement/{id}',[AnnouncementsController::class,'update']);
     Route::delete('/removeannouncement/{id}',[AnnouncementsController::class,'destroy']);
+    Route::put('/markForRemove/{id}',[AnnouncementsController::class,'softRemove']);
     Route::post('/new',[AnnouncementsController::class,'store']);
     Route::get('/users',[PassportAuthController::class,'getUsers']);
     Route::get('/agents',[PassportAuthController::class,'getAgents']);
     Route::delete('/removeuser/{id}',[PassportAuthController::class,'destroy']);
     Route::post('/updateUser/{id}',[PassportAuthController::class,'updateUser']);
     Route::post('/bannedusers',[PassportAuthController::class,'bannedUsers']);
-    
+    Route::get('/markedForRemove',[AnnouncementsController::class,'markedForRemove']);
+    Route::put('/restoreDeleted/{id}',[AnnouncementsController::class,'restoreDeleted']);
     Route::post('logout',[PassportAuthController::class,'logout']);
 
 });
+
+
+
 
 
 // Test request

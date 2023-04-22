@@ -19,7 +19,6 @@ class AnnouncementsSeeder extends Seeder
             'city' => 'agadir',
             'price' => '86000',
             'bathrooms' => '3',
-            'announcementStatus' => 'for sell',
             'bedrooms' => '1',
             'sqft' => '120',
             'neighborhood'=> 'avenue hassan 2',
@@ -27,8 +26,8 @@ class AnnouncementsSeeder extends Seeder
             'propertyType' => 'House',
             'cover_image' => 'default.png',
             'propertyStatus' => 'Ready to move',
-            'announcementType'=> 'for rent',
-            'announcementStatus'=> 1,
+            'annoncementType'=> 'for rent',
+            'annoncementStatus'=> 1,
         ]);
         // DB::table('announcements')->insert([
         //     'title'=>'Appartement a centre rabat',
