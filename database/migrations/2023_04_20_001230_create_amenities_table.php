@@ -16,18 +16,18 @@ class CreateAmenitiesTable extends Migration
         Schema::create('amenities', function (Blueprint $table) {
             $table->id();
             $table->integer('adId');
-            $table->string('garage')->nullable()->default(false);
-            $table->string('yard')->nullable()->default(false);
-            $table->string('surveillance')->nullable()->default(false);
-            $table->string('balcon')->nullable()->default(false);
-            $table->string('wifi')->nullable()->default(false);
-            $table->string('security')->nullable()->default(false);
-            $table->string('elevator')->nullable()->default(false);
-            $table->string('furnished')->nullable()->default(false);
-            $table->string('kitchenReady')->nullable()->default(false);
-            $table->string('swimingPool')->nullable()->default(false);
-            $table->string('airConditioner')->nullable()->default(false);
-            $table->string('babiesBedroom')->nullable()->default(false);
+            $table->boolean('garage')->default(0);
+            $table->boolean('yard')->default(0);
+            $table->boolean('surveillance')->default(0);
+            $table->boolean('balcon')->default(0);
+            $table->boolean('wifi')->default(0);
+            $table->boolean('security')->default(0);
+            $table->boolean('elevator')->default(0);
+            $table->boolean('furnished')->default(0);
+            $table->boolean('kitchenReady')->default(0);
+            $table->boolean('swimingPool')->default(0);
+            $table->boolean('airConditioner')->default(0);
+            $table->boolean('babiesBedroom')->default(0);
             $table->timestamps();
         });
     }

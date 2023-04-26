@@ -10,6 +10,7 @@ use App\Models\Amenities;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\StoreAnnouncementsRequest;
 use App\Http\Requests\UpdateAnnouncementsRequest;
+use App\Models\User;
 
 class AnnouncementsController extends Controller
 {
@@ -20,23 +21,31 @@ class AnnouncementsController extends Controller
         return $announcements->all();
     }
 
-    public function testReq(Request $request)
+    public function check()
     {
-        // return $request->all();
-        if($request->hasFile('file')){
-            $file = $request->file('file');
-            $extension = $file->getClientOriginalExtension();
-            $fileName = date('ymdhis') . '.' . $extension;
-            // $file->move('/uploads',$fileName);
-            // $request->file('file')->store('public');
-            // $file->move(base_path('\uploads'),$file->getClientOriginalName());
-            $file->move(public_path('\uploads'),$file->getClientOriginalName());
-            return response(['message' => 'success!','filename'=>$fileName,'status'=>200], 200);
-        }else{
-            return response(['message' => 'false!','status'=>400], 400);
-        }
+        return response()->json(["message" => "check api call success!"], 200);
     }
-    
+
+    public function getAdById($id)
+    {
+        $announcements = new Announcements;
+        return $announcements->find($id)->get();
+    }
+
+    public function getMedia($id)
+    {
+        $images = Media::where("adId",$id)->get();
+        return $images;
+    }
+
+    public function getAmenities($id)
+    {
+
+        $amenities = Amenities::where("adId",$id)->get();
+        return $amenities;
+
+    }
+
     public function store(Request $request)
     {
 
@@ -71,8 +80,9 @@ class AnnouncementsController extends Controller
             // $file->move(base_path('\uploads'),$file->getClientOriginalName());
             // $file->move(public_path('\uploads'),$file->getClientOriginalName());
             $file->move(public_path('\uploads'),$fileName);
-                
+
             $announcements = new Announcements;
+            $announcements->user_id = auth()->user()->id;
             $announcements->title = $request['title'];
             $announcements->city = $request['city'];
             $announcements->price = $request['price'];
@@ -98,9 +108,9 @@ class AnnouncementsController extends Controller
                  {
                     foreach($request['media'] as $file)
                     {
-                        
+
                         $name = time().rand(1,50).'.'.$file->extension();
-                        $file->move(public_path('\uploads'), $name);  
+                        $file->move(public_path('\uploads'), $name);
 
                         // $mediaFile = new Media;
                         // $mediaFile->fileName = $name;
@@ -125,7 +135,7 @@ class AnnouncementsController extends Controller
                         $amenities->swimingPool = $request['swimingPool'];
                         $amenities->airConditioner = $request['airConditioner'];
                         $amenities->swimingPool = $request['swimingPool'];
-                        $amenities->babiesBedroom = $request['babiesBedroom'];
+                        $amenities->babiesBedroom = $request['babiesBed'];
                         $amenities->garage = $request['garage'];
                         $amenities->save();
 
@@ -137,9 +147,9 @@ class AnnouncementsController extends Controller
                 return response(['message' => 'Ad has been saved successfully!','status'=>$request['media']], 200);
 
             }
-            
+
         }
-        
+
     }
 
     public function destroy($id)
@@ -151,7 +161,7 @@ class AnnouncementsController extends Controller
             if(File::exists(public_path('upload/bio.png'))){
                 File::delete(public_path('upload/bio.png'));
             }
-            
+
             foreach ($medias as $media) {
                 $media->delete();
             }
@@ -165,36 +175,35 @@ class AnnouncementsController extends Controller
 
 
 
-    public function update($id,request $request)
+    public function update($id,Request $request)
     {
         $announcements = Announcements::where('id',$id)->update([
 
             'city' => $request['city'],
             'price' => $request['price'],
             'bathrooms' => $request['bathrooms'],
-            'aminities' => $request['aminities'],
             'propertyStatus' => $request['propertyStatus'],
-            'propertyType' => $request['propertytype'],
+            // 'propertytype' => $request['propertyType'],
             'bedrooms' => $request['bedrooms'],
-            'sqft' => $request['sqft'],
             'neighborhood' => $request['neighborhood'],
-            'bhk' => $request['bhk'],
-            'rating' => $request['rating'],
-            'announcementStatus' => $request['announcementStatus'],
+            // 'announcementStatus' => $request['propertyStatus'],
+            // "annoncementType" => $request['annoncementType'],
+            "title" => $request['title'],
 
         ]);
-        
-        if($announcements->save()){
+
+        if($announcements){
             return response()->json(["message"=> "Update Success !"],200);
-        }else{
-            return response()->json(["message"=> "Update Failed !"],401);
         }
+
+        return response()->json(["request"=> $id],401);
+
     }
 
     public function softRemove($id)
     {
 
-        $announcement = Announcements::where('id', $id)->update(['markedForRemove' => 1]);        
+        $announcement = Announcements::where('id', $id)->update(['markedForRemove' => 1]);
         if($announcement){
             return response()->json(["message"=> "Marked for remove with Success !"],200);
         }else{
@@ -215,7 +224,7 @@ class AnnouncementsController extends Controller
 
     public function restoreDeleted($id){
 
-        $announcement = Announcements::where('id', $id)->update(['markedForRemove' => 0]);        
+        $announcement = Announcements::where('id', $id)->update(['markedForRemove' => 0]);
         if($announcement){
             return response()->json(["message"=> "Restored with Success !"],200);
         }else{
@@ -223,4 +232,28 @@ class AnnouncementsController extends Controller
         }
 
     }
+
+    public function getAdsByUserId($id)
+    {
+
+        $results = User::find($id)->announcements;
+        if($results){
+            return response()->json($results,200);
+        }else{
+            return response()->json(["message"=> "Get data Failed !"],401);
+        }
+
+    }
+    public function getAdAuthor($id)
+    {
+        $results = Announcements::find($id)->user;
+        if($results){
+            return response()->json($results,200);
+        }else{
+            return response()->json(["message"=> "Get data Failed !"],401);
+        }
+    }
+
+
+
 }

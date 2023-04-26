@@ -15,6 +15,7 @@ class AnnouncementsSeeder extends Seeder
     public function run()
     {
         DB::table('announcements')->insert([
+            'user_id'=>1,
             'title'=>'Appartement a agadir',
             'city' => 'agadir',
             'price' => '86000',

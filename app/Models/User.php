@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use App\Models\Announcements;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
@@ -45,9 +46,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function scopeBanned($query)
+    public function announcements(): HasMany
     {
-        return $query->where('status','banned');
+        return $this->hasMany(Announcements::class);
     }
+
 
 }

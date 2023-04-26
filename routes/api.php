@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\AnnoncementStatusController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PassportAuthController;
 use App\Http\Controllers\AnnouncementsController;
@@ -18,9 +18,8 @@ Route::get('/bannedusers',[PassportAuthController::class,'getBannedUsers']);
 
 Route::middleware('auth:api')->group(function () {
 
-    Route::get('/allAds',[AnnouncementsController::class,'index']);
-    Route::get('/selling',[AnnouncementsController::class,'getSellingAnnouncements']);
-    Route::get('/renting',[AnnouncementsController::class,'getRentingAnnouncements']);
+
+    Route::get('/annoncementsStatus',[AnnoncementStatusController::class,'getAll']);
     Route::put('/updateannouncement/{id}',[AnnouncementsController::class,'update']);
     Route::delete('/removeannouncement/{id}',[AnnouncementsController::class,'destroy']);
     Route::put('/markForRemove/{id}',[AnnouncementsController::class,'softRemove']);
@@ -37,8 +36,16 @@ Route::middleware('auth:api')->group(function () {
 });
 
 
+// public routes
+
+    // check for server alive
+    Route::get('/checkApiCall',[AnnouncementsController::class,'check']);
 
 
+Route::get('/allAds',[AnnouncementsController::class,'index']);
+Route::get('/amenities/{id}',[AnnouncementsController::class,'getAmenities']);
+Route::get('/getAdById/{id}',[AnnouncementsController::class,'getAdById']);
+Route::get('/getImages/{id}',[AnnouncementsController::class,'getMedia']);
+Route::get('/getAdsByUserId/{id}',[AnnouncementsController::class,'getAdsByUserId']);
+Route::get('/getAdAuthor/{id}',[AnnouncementsController::class,'getAdAuthor']);
 
-// Test request
-// Route::post('/testReq',[AnnouncementsController::class,'testReq'])

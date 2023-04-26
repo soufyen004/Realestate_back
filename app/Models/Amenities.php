@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Amenities extends Model
 {
@@ -24,4 +25,18 @@ class Amenities extends Model
         'airConditioner',
         'babiesBedroom',
     ];
+
+
+    /**
+     * Get the user that owns the Amenities
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function announcement(): BelongsTo
+    {
+        return $this->belongsTo(Announcements::class, 'adId');
+    }
+
+
+
 }

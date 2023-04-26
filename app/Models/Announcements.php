@@ -5,12 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Passport\HasApiTokens;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 
 class Announcements extends Model
 {
     use HasFactory,HasApiTokens;
 
     protected $fillable = [
+        'user_id',
         'cover_image',
         'city',
         'price',
@@ -26,15 +30,12 @@ class Announcements extends Model
         'aminities'
     ];
 
-    public function scopeForRent($query)
+
+    public function user()
     {
-        return $query->where('announcementStatus','for rent');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function scopeForSell($query)
-    {
-        return $query->where('announcementStatus','for sell');
-    }
 
 
 }

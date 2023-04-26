@@ -15,6 +15,7 @@ class CreateAnnouncementsTable extends Migration
     {
         Schema::create('announcements', function (Blueprint $table) {
             $table->id();
+            $table->BigInteger('user_id')->unsigned();
             $table->string('title');
             $table->string('cover_image');
             $table->string('city');
@@ -30,6 +31,9 @@ class CreateAnnouncementsTable extends Migration
             $table->boolean('annoncementStatus')->nullable();
             $table->boolean('markedForRemove')->unsigned()->nullable()->default(false);
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
         });
     }
 
