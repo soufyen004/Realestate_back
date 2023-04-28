@@ -60,7 +60,6 @@ class AnnouncementsController extends Controller
             'propertyStatus' => 'required|string',
             'sqft' => 'required|numeric',
             'neighborhood' => 'required|string',
-            'rating' => 'required|numeric',
             'propertyType' => 'required|string'
         ]);
 
@@ -94,7 +93,6 @@ class AnnouncementsController extends Controller
             $announcements->sqft = $request['sqft'];
             $announcements->neighborhood = $request['neighborhood'];
             $announcements->annoncementType = $request['annoncementType'];
-            $announcements->rating = $request['rating'];
             $announcements->cover_image = $fileName;
             $save = $announcements->save();
 

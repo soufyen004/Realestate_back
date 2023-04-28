@@ -27,7 +27,6 @@ class CreateAnnouncementsTable extends Migration
             $table->integer('sqft');
             $table->string('neighborhood');
             $table->string('annoncementType');
-            $table->integer('rating');
             $table->boolean('annoncementStatus')->nullable();
             $table->boolean('markedForRemove')->unsigned()->nullable()->default(false);
             $table->timestamps();

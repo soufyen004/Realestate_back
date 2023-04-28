@@ -6,7 +6,8 @@ use App\Http\Controllers\PassportAuthController;
 use App\Http\Controllers\AnnouncementsController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\ContactDetailsController;
-
+use App\Http\Controllers\AnnoncementsTypeController;
+use App\Http\Controllers\UniversController;
 
 Route::post('register', [PassportAuthController::class, 'register']);
 Route::post('login', [PassportAuthController::class, 'login']);
@@ -42,10 +43,21 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/checkApiCall',[AnnouncementsController::class,'check']);
 
 
-Route::get('/allAds',[AnnouncementsController::class,'index']);
+Route::post('/newUnivers',[UniversController::class,'store']);
+Route::get('/allUnivers',[UniversController::class,'getAll']);
+Route::delete('/removeunivers/{id}',[UniversController::class,'destroy']);
+Route::put('/updateunivers/{id}',[UniversController::class,'update']);
+
+
+Route::put('/updateType/{id}',[AnnoncementsTypeController::class,'update']);
+Route::get('/allTypes',[AnnoncementsTypeController::class,'getAll']);
+Route::post('/newType',[AnnoncementsTypeController::class,'store']);
+Route::delete('/deleteType/{id}',[AnnoncementsTypeController::class,'destroy']);
+Route::get('/typeDelete/{id}',[AnnoncementsTypeController::class,'destroy']);
 Route::get('/amenities/{id}',[AnnouncementsController::class,'getAmenities']);
 Route::get('/getAdById/{id}',[AnnouncementsController::class,'getAdById']);
 Route::get('/getImages/{id}',[AnnouncementsController::class,'getMedia']);
 Route::get('/getAdsByUserId/{id}',[AnnouncementsController::class,'getAdsByUserId']);
 Route::get('/getAdAuthor/{id}',[AnnouncementsController::class,'getAdAuthor']);
 
+Route::get('/allAds',[AnnouncementsController::class,'index']);
