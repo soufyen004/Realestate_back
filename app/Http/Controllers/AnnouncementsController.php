@@ -10,6 +10,7 @@ use App\Models\Amenities;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\StoreAnnouncementsRequest;
 use App\Http\Requests\UpdateAnnouncementsRequest;
+use App\Models\Univers;
 use App\Models\User;
 
 class AnnouncementsController extends Controller
@@ -21,15 +22,34 @@ class AnnouncementsController extends Controller
         return $announcements->all();
     }
 
+
+    public function search(Request $request)
+    {
+        $announcements = new Announcements;
+        $results = $announcements->where('common', 'LIKE', '%'.$request['commune'].'%')->where('bedrooms','LIKE', '%' .$request['bedrooms']. '%')->where('bathrooms','LIKE', '%'.$request['bathrooms'].'%')->get();
+
+        return $results;
+
+    }
+
     public function check()
     {
         return response()->json(["message" => "check api call success!"], 200);
     }
 
+
     public function getAdById($id)
     {
         $announcements = new Announcements;
-        return $announcements->find($id)->get();
+        return $announcements->find($id);
+    }
+
+    public function getByUnivers($univers)
+    {
+        $univ = new Univers();
+        $res= $univ->where('name',$univers)->with('ads')->get()->toArray();
+        return response()->json(['data' => $res], 200);
+
     }
 
     public function getMedia($id)
@@ -53,13 +73,13 @@ class AnnouncementsController extends Controller
         $validator = Validator::make($request->all(),[
             'file' => 'required|mimes:jpeg,png,bmp|max:2048',
             'media' => 'required',
-            'city' => 'required|string',
+            'region' => 'required|string',
+            'common' => 'required|string',
             'price' =>' required|numeric',
             'bathrooms' => 'required|numeric',
             'bedrooms'=> 'required|numeric',
             'propertyStatus' => 'required|string',
             'sqft' => 'required|numeric',
-            'neighborhood' => 'required|string',
             'propertyType' => 'required|string'
         ]);
 
@@ -83,17 +103,19 @@ class AnnouncementsController extends Controller
             $announcements = new Announcements;
             $announcements->user_id = auth()->user()->id;
             $announcements->title = $request['title'];
-            $announcements->city = $request['city'];
+            $announcements->region = $request['region'];
+            $announcements->common = $request['common'];
             $announcements->price = $request['price'];
             $announcements->bathrooms = $request['bathrooms'];
             // $announcements->aminities = $request['amenities'];
             $announcements->propertyStatus = $request['propertyStatus'];
             $announcements->propertyType = $request['propertyType'];
+            $announcements->annoncements_type_id = $request['propertyTypeId'];
             $announcements->bedrooms = $request['bedrooms'];
             $announcements->sqft = $request['sqft'];
-            $announcements->neighborhood = $request['neighborhood'];
             $announcements->annoncementType = $request['annoncementType'];
             $announcements->cover_image = $fileName;
+            $announcements->description = $request['description'];
             $save = $announcements->save();
 
 
@@ -139,10 +161,10 @@ class AnnouncementsController extends Controller
 
                     }
                  }else{
-                    return response(['message' => 'No media to ulpload!','status'=> $request['media']], 500);
+                    return response(['message' => 'No media to ulpload!','status'=> 500], 500);
                  }
 
-                return response(['message' => 'Ad has been saved successfully!','status'=>$request['media']], 200);
+                return response(['message' => 'Ad has been saved successfully!','status'=>200], 200);
 
             }
 

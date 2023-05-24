@@ -16,16 +16,18 @@ class CreateAnnouncementsTable extends Migration
         Schema::create('announcements', function (Blueprint $table) {
             $table->id();
             $table->BigInteger('user_id')->unsigned();
+            $table->BigInteger('annoncements_type_id')->unsigned();
             $table->string('title');
+            $table->text('description');
             $table->string('cover_image');
-            $table->string('city');
+            $table->string('region');
+            $table->string('common');
             $table->integer('price');
             $table->integer('bathrooms');
             $table->string('propertyStatus');
             $table->string('propertytype');
             $table->integer('bedrooms');
             $table->integer('sqft');
-            $table->string('neighborhood');
             $table->string('annoncementType');
             $table->boolean('annoncementStatus')->nullable();
             $table->boolean('markedForRemove')->unsigned()->nullable()->default(false);

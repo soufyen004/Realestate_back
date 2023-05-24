@@ -14,8 +14,8 @@ class AnnoncementsType extends Model
         'created_at' => 'date:m/d/Y',
     ];
 
-    public function type()
+    public function univers()
     {
-        return $this->hasMany(Univers::class);
+        return $this->belongsTo(Univers::class,'type_id');
     }
 }

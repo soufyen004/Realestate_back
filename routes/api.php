@@ -43,6 +43,8 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/checkApiCall',[AnnouncementsController::class,'check']);
 
 
+Route::post('/search',[AnnouncementsController::class,'search']);
+
 Route::post('/newUnivers',[UniversController::class,'store']);
 Route::get('/allUnivers',[UniversController::class,'getAll']);
 Route::delete('/removeunivers/{id}',[UniversController::class,'destroy']);
@@ -61,3 +63,7 @@ Route::get('/getAdsByUserId/{id}',[AnnouncementsController::class,'getAdsByUserI
 Route::get('/getAdAuthor/{id}',[AnnouncementsController::class,'getAdAuthor']);
 
 Route::get('/allAds',[AnnouncementsController::class,'index']);
+Route::get('/adsByUnivers/{univers}',[AnnouncementsController::class,'getByUnivers']);
+Route::get('/adsByUnivers/{universName}',[UniversController::class,'getLatestAdsByUnivers']);
+
+Route::get('/search',[AnnouncementsController::class,'search']);

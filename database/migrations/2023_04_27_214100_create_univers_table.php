@@ -22,7 +22,7 @@ class CreateUniversTable extends Migration
             $table->boolean('active')->unsigned()->nullable()->default(true);
             $table->timestamps();
 
-            $table->foreign('type_id')->references('id')->on('annoncements_types')->onDelete('cascade');
+            // $table->foreign('type_id')->references('id')->on('annoncements_types')->onDelete('cascade');
 
         });
     }

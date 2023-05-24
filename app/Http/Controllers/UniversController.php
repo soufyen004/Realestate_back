@@ -11,8 +11,15 @@ class UniversController extends Controller
     public function getAll()
     {
         $univers = new Univers();
-        return $univers->all();
+        return $univers->with('ads')->get();
 
+    }
+
+    public function getLatestAdsByUnivers($universName)
+    {
+        $univers = new Univers();
+        $results = $univers->where('name',$universName)->with('type')->whereRelation('type','universName',$universName)->get();
+        return Response(["data"=>$results],200);
     }
 
     public function store(Request $request)

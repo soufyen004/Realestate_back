@@ -20,6 +20,8 @@ class AnnoncementsTypeController extends Controller
     {
         $type = new AnnoncementsType();
         $type->name = $request['name'];
+        $type->univers_name = $request['univers_name'];
+        $type->univers_id = $request['univers_id'];
 
         if($type->save()){
 
@@ -51,14 +53,15 @@ class AnnoncementsTypeController extends Controller
     {
         $type = AnnoncementsType::where('id',$id)->update([
 
-            'name' => $request['name']
+            'name' => $request['name'],
+            'univers_name' => $request['univers_name']
         ]);
 
         if($type){
             return response()->json(["message"=> "Update Success !"],200);
         }
 
-        return response()->json(["message"=> $request],401);
+        return response()->json(["message"=> "Update failed!"],400);
 
     }
 }

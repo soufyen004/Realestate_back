@@ -16,9 +16,10 @@ class CreateAnnoncementsTypesTable extends Migration
         Schema::create('annoncements_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('universName');
-            $table->integer('universId');
+            $table->string('univers_name');
+            $table->unsignedInteger('univers_id');
             $table->timestamps();
+
         });
     }
 

@@ -9,9 +9,11 @@ class Univers extends Model
 {
     use HasFactory;
 
-    public function type()
+    public function ads()
     {
-        return $this->belongsTo(AnnoncementsType::class, 'type_id');
+        return $this->hasManyThrough(Announcements::class, AnnoncementsType::class);
     }
+
+
 }
 

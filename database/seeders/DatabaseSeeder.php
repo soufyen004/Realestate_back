@@ -19,5 +19,6 @@ class DatabaseSeeder extends Seeder
         $this->call(StatusSeeder::class);
         $this->call(AnnoncementsTypeSeeder::class);
         $this->call(UniversSeeder::class);
+        $this->call(AmenitiesSeeder::class);
     }
 }
