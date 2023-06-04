@@ -5,6 +5,9 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Validator;
 use DB;
+use Auth;
+use Exception;
+use Socialite;
 
 
 class PassportAuthController extends Controller
@@ -36,6 +39,47 @@ class PassportAuthController extends Controller
 
     }
 
+
+    public function redirectToGoogle()
+    {
+        // return 'test1 ok';
+
+        return Socialite::driver('google')->stateless()->redirect()->getTargetUrl();
+    }
+
+    public function handleGoogleCallback()
+    {
+
+
+        try {
+            $user =  Socialite::driver('google')->stateless()->user();
+
+            $finduser = User::where('email', $user->email)->first();
+            if ($finduser)
+                {
+
+                Auth::login($finduser);
+                return $finduser;
+                // return redirect()->intended('/dashboard');
+
+                } else {
+                $newUser = User::create([
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'google_id' => $user->id,
+                    'password' => encrypt('password')
+                ]);
+                Auth::login($newUser);
+                // return redirect()->intended('/dashboard');
+                return $newUser;
+            }
+        } catch (Exception $e) {
+            dd($e->getMessage());
+        }
+    }
+
+
+
     public function login(Request $request)
     {
         $data = [
@@ -44,7 +88,7 @@ class PassportAuthController extends Controller
         ];
 
         if (auth()->attempt($data)) {
-            $token = auth()->user()->createToken('LaravelAuthApp')->accessToken;
+            $token = auth()->user()->createToken('ImmowebAuthApp')->accessToken;
             $userName = auth()->user()->name;
             $userRole = auth()->user()->role;
             return response()->json(['message' => 'Login success!','name'=>$userName,'role'=>$userRole,'token' => $token,'status'=>200], 200);

@@ -67,3 +67,6 @@ Route::get('/adsByUnivers/{univers}',[AnnouncementsController::class,'getByUnive
 Route::get('/adsByUnivers/{universName}',[UniversController::class,'getLatestAdsByUnivers']);
 
 Route::get('/search',[AnnouncementsController::class,'search']);
+
+Route::get('auth/google', [PassportAuthController::class, 'redirectToGoogle']);
+Route::get('auth/google/callback', [PassportAuthController::class, 'handleGoogleCallback']);

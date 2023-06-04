@@ -22,6 +22,7 @@ class UniversController extends Controller
         return Response(["data"=>$results],200);
     }
 
+
     public function store(Request $request)
     {
         $univers = new Univers();

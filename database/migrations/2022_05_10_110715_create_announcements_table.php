@@ -28,6 +28,8 @@ class CreateAnnouncementsTable extends Migration
             $table->string('propertytype');
             $table->integer('bedrooms');
             $table->integer('sqft');
+            $table->double('locationLat')->nullable();
+            $table->double('locationLng')->nullable();
             $table->string('annoncementType');
             $table->boolean('annoncementStatus')->nullable();
             $table->boolean('markedForRemove')->unsigned()->nullable()->default(false);

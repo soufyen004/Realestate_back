@@ -116,6 +116,8 @@ class AnnouncementsController extends Controller
             $announcements->annoncementType = $request['annoncementType'];
             $announcements->cover_image = $fileName;
             $announcements->description = $request['description'];
+            $announcements->locationLat = $request['locationLat'];
+            $announcements->locationLng = $request['locationLng'];
             $save = $announcements->save();
 
 
@@ -161,11 +163,13 @@ class AnnouncementsController extends Controller
 
                     }
                  }else{
-                    return response(['message' => 'No media to ulpload!','status'=> 500], 500);
+                    return response(['message' => 'No media to ulpload!','status'=> 501], 501);
                  }
 
                 return response(['message' => 'Ad has been saved successfully!','status'=>200], 200);
 
+            }else{
+                return response(['Error save data!' => $request->all(),'status'=>401], 401);
             }
 
         }
